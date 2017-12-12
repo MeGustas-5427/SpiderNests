@@ -1,0 +1,26 @@
+{
+  "Flask_Settings":{
+    "host":"0.0.0.0",
+    "port":5000
+  },
+
+  "API_Settings":{
+    "Connection_key":"a61a6b836f3d72684dc35f28cbae4b2d"
+  },
+
+  "Modules":[
+    {
+      "path":"libs",
+      "name":"usercore",
+      "version":1,
+      "author":"Lengyue",
+      "blueprints":[
+        "usercore"
+      ]
+    }
+  ],
+
+  "log":{
+    "file":"log.txt"
+  }
+}

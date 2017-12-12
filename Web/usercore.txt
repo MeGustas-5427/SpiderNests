@@ -1,0 +1,12 @@
+12-10 19:40 mongodbc                                 INFO     Mongodb Connected to mongodb://127.0.0.1:27017
+12-10 19:40 Main-Process                             INFO     --------------------Start Init System--------------------
+12-10 19:40 Main-Process                             INFO     Flask Settings -> {'host': '0.0.0.0', 'port': 5000}
+12-10 19:40 Main-Process                             INFO     Starting to load Modules
+12-10 19:40 Main-Process                             INFO     {'path': 'libs', 'name': 'usercore', 'version': 1, 'author': 'Lengyue', 'blueprints': ['page_login']}
+12-10 19:40 Main-Process                             INFO     --------------------Start loading libs.usercore--------------------
+12-10 19:41 Main-Process                             INFO     Loading 1 Blueprints
+12-10 19:41 Main-Process                             INFO     Loading page_login
+12-10 19:41 Main-Process                             INFO     --------------------Finish loading libs.usercore--------------------
+12-10 19:41 Main-Process                             INFO     Loaded Modules
+12-10 19:41 Main-Process                             INFO     --------------------Finish Init System--------------------
+12-10 19:41 werkzeug                                 INFO      * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
