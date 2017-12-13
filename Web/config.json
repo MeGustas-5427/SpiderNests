@@ -17,6 +17,15 @@
       "blueprints":[
         "usercore"
       ]
+    },
+    {
+      "path":"libs",
+      "name":"taskcore",
+      "version":1,
+      "author":"Lengyue",
+      "blueprints":[
+        "taskcore"
+      ]
     }
   ],
 
