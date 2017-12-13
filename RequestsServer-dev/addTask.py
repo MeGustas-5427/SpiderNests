@@ -2,6 +2,7 @@ import redis
 import time
 import random
 from hashlib import md5
+import json
 
 dbc = redis.Redis()
 dbc_write = redis.Redis(db=1)
@@ -36,31 +37,15 @@ task = {
     "proxies":{
         "http":"",
         "https":""
-    },
-    "finish":"1"
+    }
 }
 
-for i in task.keys():
-    if type(task[i])==type({}):
-        for j in task[i].keys():
-            dbc.hset(key, i+"::"+j, task[i][j])
-    else:
-        dbc.hset(key,i,task[i])
+dbc.set(key,json.dumps(task))
 
 while True:
-    info = dbc_write.hgetall(key)
-    if info!={} and b"finish" in info:
+    info = dbc_write.get(key)
+    if info!=None:
         dbc_write.delete(key)
         break
 
-ans = {}
-for i in info.keys():
-    if "::" in i.decode():
-        a,b = i.decode().split("::")
-        if not a in ans.keys():
-            ans[a] = {}
-        ans[a][b] = info[i].decode()
-    else:
-        ans[i.decode()] = info[i].decode()
-
-print(ans)
+print(json.loads(info.decode()))

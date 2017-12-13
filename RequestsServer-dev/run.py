@@ -5,6 +5,8 @@ from gevent import monkey
 import traceback
 import redis
 import requests
+import json
+import base64
 
 monkey.patch_socket()
 monkey.patch_os()
@@ -20,27 +22,16 @@ def crawler():
             while True:
                 key = dbc.randomkey()
                 if key != None and key not in lock:
-                    info = dbc.hgetall(key)
-                    if b"finish" in info:
-                        lock.append(key)
-                        dbc.delete(key)
-                        print(info)
-                        break
+                    lock.append(key)
+                    ans = json.loads(dbc.get(key).decode())
+                    dbc.delete(key)
+                    print(ans)
+                    break
 
-            ans = {}
-            for i in info.keys():
-                if "::" in i.decode():
-                    a,b = i.decode().split("::")
-                    if not a in ans.keys():
-                        ans[a] = {}
-                    ans[a][b] = info[i].decode()
-                else:
-                    ans[i.decode()] = info[i].decode()
             if ans["proxies"]["https"] == "":
                 ans["proxies"]["https"] = None
             if ans["proxies"]["http"] == "":
                 ans["proxies"]["http"] = None
-            print(ans)
             method = ans["method"]
 
             if method.lower() == "get":
@@ -57,16 +48,10 @@ def crawler():
                 "state": ret.status_code,
                 "url": ret.url,
                 "headers": headers,
-                "content": ret.content,
-                "finish":"1"
+                "content": base64.b64encode(ret.content).decode(),
             }
 
-            for i in task.keys():
-                if type(task[i]) == type({}):
-                    for j in task[i].keys():
-                        dbc_write.hset(key, i + "::" + j, task[i][j])
-                else:
-                    dbc_write.hset(key, i, task[i])
+            dbc_write.set(key, json.dumps(task))
 
             gevent.sleep(0.1)
         except:
