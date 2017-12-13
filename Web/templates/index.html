@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css">
+  <title>SpiderNests | 首页</title>
+  <link rel="shortcut icon" href="./static/images/icon.png"> </head>
+
+<body>
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fa d-inline fa-lg fa-connectdevelop"></i><b>&nbsp;SpiderNests</b></a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <ul class="navbar-nav"></ul>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5 text-center opaque-overlay" style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/cover_event.jpg&quot;);">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-md-12 text-white">
+          <h1 class="display-3 mb-4">欢迎使用SpiderNests</h1>
+          <p class="lead mb-5">SpiderNests 是一个遵循MIT协议的开源项目
+            <br>
+            <br> </p>
+          <a href="#" class="btn btn-lg btn-primary mx-1" onclick="$('#LoginModal').modal()">登录后台</a>
+          <a href="https://github.com/leng-yue/SpiderNests" class="btn mx-1 btn-lg btn-light">打开SpiderNests项目</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="py-5 col-md-6">
+          <div class="row">
+            <div class="text-center col-4"><i class="d-block mx-auto fa fa-5x fa-angle-double-up"></i></div>
+            <div class="col-8">
+              <h5 class="mb-3 text-primary"><b>Efficiency approved</b></h5>
+              <p class="my-1">SpiderNests 请求器纯C++编写 保证了 并发效率
+                <br>采用AI自动学习来优化请求并发 数量</p>
+            </div>
+          </div>
+        </div>
+        <div class="py-5 col-md-6">
+          <div class="row">
+            <div class="text-center col-4"><i class="d-block mx-auto fa fa-5x fa-map-o"></i></div>
+            <div class="col-8">
+              <h5 class="mb-3 text-primary"><b>Minor Ability</b></h5>
+              <p class="my-1">批量在服务器上执行你的安装脚本 shell回调 快速部署 并有强大的性能监测功能</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="py-5 col-md-6">
+          <div class="row">
+            <div class="text-center col-4"><i class="d-block mx-auto fa fa-5x fa-file-o"></i></div>
+            <div class="col-8">
+              <h5 class="mb-3 text-primary"><b>Start from templates</b></h5>
+              <p class="my-1">我们编写了大量的拓展 您可以快速上手</p>
+            </div>
+          </div>
+        </div>
+        <div class="py-5 col-md-6">
+          <div class="row">
+            <div class="text-center col-4"><i class="d-block mx-auto fa fa-5x fa-code"></i></div>
+            <div class="col-8">
+              <h5 class="mb-3 text-primary"><b>Made for everyone</b></h5>
+              <p class="my-1">只需要了解Python的用法 无难度将原本的requests爬虫迁移为分布式爬虫</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5 bg-dark text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p>SpiderNests 2017</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="LoginModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">登录</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger" role="alert" id="warnning" style="display: none;"> <span id="error_info" class="alert-heading">错误</span> </div>
+          <input type="password" name="password" class="form-control" placeholder="请输入密码" id="password"> </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="login_button">登录</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script src="./static/js/index.js"></script>
+</body>
+
+</html>
