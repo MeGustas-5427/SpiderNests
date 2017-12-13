@@ -1,9 +1,11 @@
 """
 A example for writing parser-file.
 
-The Class name must be "HtmlParser".
+The file name must be "main.py"
+
+The class name must be "HtmlParser".
+
 The function "run" is necessary.
-If the class "HtmlParser" don't have it, it will throw a error.
 """
 class HtmlParser:
     def __init__(self):
