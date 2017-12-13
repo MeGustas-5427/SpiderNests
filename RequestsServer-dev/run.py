@@ -1,6 +1,5 @@
 import gevent
-import time
-from queue import Queue
+import class_source_listener as listener
 from gevent import monkey
 import traceback
 import redis
@@ -16,7 +15,7 @@ monkey.patch_subprocess()
 dbc = redis.Redis()
 dbc_write = redis.Redis(db=1)
 lock = []
-def crawler():
+def crawler(t):
     while True:
         try:
             while True:
@@ -24,9 +23,9 @@ def crawler():
                 if key != None and key not in lock:
                     lock.append(key)
                     ans = json.loads(dbc.get(key).decode())
-                    dbc.delete(key)
-                    print(ans)
+                    print(t,ans)
                     break
+                gevent.sleep(0.01)
 
             if ans["proxies"]["https"] == "":
                 ans["proxies"]["https"] = None
@@ -50,16 +49,16 @@ def crawler():
                 "headers": headers,
                 "content": base64.b64encode(ret.content).decode(),
             }
-
             dbc_write.set(key, json.dumps(task))
-
-            gevent.sleep(0.1)
+            dbc.delete(key)
+            gevent.sleep(0.01)
         except:
             traceback.print_exc()
 
 if __name__ == "__main__":
     l = []
-    for i in range(10):
-        l.append(gevent.spawn(crawler()))
+    gevent.spawn(listener.listen)
+    for i in range(20):
+        l.append(gevent.spawn(crawler,i))
 
     gevent.joinall(l)

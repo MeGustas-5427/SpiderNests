@@ -1,0 +1,8 @@
+{
+  "redis":{
+    "ip":"127.0.0.1",
+    "port":6379,
+    "password":""
+  },
+  "serverid": "7e3ac10cac59ba1bc29b0b126701aa7f"
+}
