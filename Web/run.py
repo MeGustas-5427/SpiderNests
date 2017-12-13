@@ -1,13 +1,12 @@
 from flask import Flask
 import json
-import classes.class_logger
-
+from classes import class_logger, class_config
 app = Flask(__name__)
 
 #Load Configs
-config = json.loads(open("config.json","r").read())
+config = class_config.config().read("global")
 #Init Logger
-logger = classes.class_logger.logger(config["log"]["file"])
+logger = class_logger.logger(config["log"]["file"])
 logger_main = logger.getLogger("Main-Process")
 logger_main.info("--------------------Start Init System--------------------")
 #Load Modules

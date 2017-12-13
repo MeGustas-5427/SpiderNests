@@ -7,9 +7,6 @@ import redis
 from classes import class_config, class_auth
 import logging
 import json
-import random
-import string
-import time
 
 taskcore = Blueprint('taskcore', __name__,
                         template_folder='templates')
