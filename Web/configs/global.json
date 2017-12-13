@@ -42,6 +42,14 @@
       "blueprints":[
         "servercore"
       ]
+    },{
+      "path":"libs",
+      "name":"main",
+      "version":1,
+      "author":"Lengyue",
+      "blueprints":[
+        "main"
+      ]
     }
   ],
 

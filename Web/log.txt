@@ -1,21 +1,32 @@
-12-13 13:19 Main-Process                             INFO     --------------------Start Init System--------------------
-12-13 13:19 Main-Process                             INFO     Flask Settings -> {'host': '0.0.0.0', 'port': 5000}
-12-13 13:19 Main-Process                             INFO     Starting to load Modules
-12-13 13:19 Main-Process                             INFO     {'path': 'libs', 'name': 'usercore', 'version': 1, 'author': 'Lengyue', 'blueprints': ['usercore']}
-12-13 13:19 Main-Process                             INFO     --------------------Start loading libs.usercore--------------------
-12-13 13:19 Main-Process                             INFO     Loading 1 Blueprints
-12-13 13:19 Main-Process                             INFO     Loading usercore
-12-13 13:19 Main-Process                             INFO     --------------------Finish loading libs.usercore--------------------
-12-13 13:19 Main-Process                             INFO     {'path': 'libs', 'name': 'taskcore', 'version': 1, 'author': 'Lengyue', 'blueprints': ['taskcore']}
-12-13 13:19 Main-Process                             INFO     --------------------Start loading libs.taskcore--------------------
-12-13 13:19 Main-Process                             INFO     Loading 1 Blueprints
-12-13 13:19 Main-Process                             INFO     Loading taskcore
-12-13 13:19 Main-Process                             INFO     --------------------Finish loading libs.taskcore--------------------
-12-13 13:19 Main-Process                             INFO     {'path': 'libs', 'name': 'servercore', 'version': 1, 'author': 'Lengyue', 'blueprints': ['servercore']}
-12-13 13:19 Main-Process                             INFO     --------------------Start loading libs.servercore--------------------
-12-13 13:19 Main-Process                             INFO     Loading 1 Blueprints
-12-13 13:19 Main-Process                             INFO     Loading servercore
-12-13 13:19 Main-Process                             INFO     --------------------Finish loading libs.servercore--------------------
-12-13 13:19 Main-Process                             INFO     Loaded Modules
-12-13 13:19 Main-Process                             INFO     --------------------Finish Init System--------------------
-12-13 13:19 werkzeug                                 INFO      * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+12-13 16:37 Main-Process                             INFO     --------------------Start Init System--------------------
+12-13 16:37 Main-Process                             INFO     Flask Settings -> {'host': '0.0.0.0', 'port': 5000}
+12-13 16:37 Main-Process                             INFO     Starting to load Modules
+12-13 16:37 Main-Process                             INFO     {'path': 'libs', 'name': 'usercore', 'version': 1, 'author': 'Lengyue', 'blueprints': ['usercore']}
+12-13 16:37 Main-Process                             INFO     --------------------Start loading libs.usercore--------------------
+12-13 16:37 Main-Process                             INFO     Loading 1 Blueprints
+12-13 16:37 Main-Process                             INFO     Loading usercore
+12-13 16:37 Main-Process                             INFO     --------------------Finish loading libs.usercore--------------------
+12-13 16:37 Main-Process                             INFO     {'path': 'libs', 'name': 'taskcore', 'version': 1, 'author': 'Lengyue', 'blueprints': ['taskcore']}
+12-13 16:37 Main-Process                             INFO     --------------------Start loading libs.taskcore--------------------
+12-13 16:37 Main-Process                             INFO     Loading 1 Blueprints
+12-13 16:37 Main-Process                             INFO     Loading taskcore
+12-13 16:37 Main-Process                             INFO     --------------------Finish loading libs.taskcore--------------------
+12-13 16:37 Main-Process                             INFO     {'path': 'libs', 'name': 'servercore', 'version': 1, 'author': 'Lengyue', 'blueprints': ['servercore']}
+12-13 16:37 Main-Process                             INFO     --------------------Start loading libs.servercore--------------------
+12-13 16:37 Main-Process                             INFO     Loading 1 Blueprints
+12-13 16:37 Main-Process                             INFO     Loading servercore
+12-13 16:37 Main-Process                             INFO     --------------------Finish loading libs.servercore--------------------
+12-13 16:37 Main-Process                             INFO     {'path': 'libs', 'name': 'main', 'version': 1, 'author': 'Lengyue', 'blueprints': ['main']}
+12-13 16:37 Main-Process                             INFO     --------------------Start loading libs.main--------------------
+12-13 16:37 Main-Process                             INFO     Loading 1 Blueprints
+12-13 16:37 Main-Process                             INFO     Loading main
+12-13 16:37 Main-Process                             INFO     --------------------Finish loading libs.main--------------------
+12-13 16:37 Main-Process                             INFO     Loaded Modules
+12-13 16:37 Main-Process                             INFO     --------------------Finish Init System--------------------
+12-13 16:37 werkzeug                                 INFO      * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+12-13 16:38 werkzeug                                 INFO     127.0.0.1 - - [13/Dec/2017 16:38:02] "GET /admin/ HTTP/1.1" 200 -
+12-13 16:38 werkzeug                                 INFO     127.0.0.1 - - [13/Dec/2017 16:38:02] "GET /admin/codedit HTTP/1.1" 200 -
+12-13 16:38 werkzeug                                 INFO     127.0.0.1 - - [13/Dec/2017 16:38:02] "GET /static/css/codemirror.css HTTP/1.1" 200 -
+12-13 16:38 werkzeug                                 INFO     127.0.0.1 - - [13/Dec/2017 16:38:02] "GET /static/js/codemirror.js HTTP/1.1" 200 -
+12-13 16:38 werkzeug                                 INFO     127.0.0.1 - - [13/Dec/2017 16:38:02] "GET /static/js/python.js HTTP/1.1" 200 -
+12-13 16:40 werkzeug                                 INFO     127.0.0.1 - - [13/Dec/2017 16:40:59] "GET / HTTP/1.1" 200 -
