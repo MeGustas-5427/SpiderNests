@@ -5,11 +5,9 @@
 
 import redis
 
-class helper:
+class Helper:
     def __init__(self):
-        rdp = redis.ConnectionPool(host='127.0.0.1', port=6379,db=9)
-        self.dbc = redis.StrictRedis(connection_pool=rdp)
-
+        pass
 
     def Transform(self,arr):
         temp = {}
