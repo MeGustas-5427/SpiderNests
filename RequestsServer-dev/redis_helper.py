@@ -1,4 +1,4 @@
-#如何在redis中优雅地存入多维数据
+# 如何在redis中优雅地存入多维数据
 # redis_helper.py
 # redis 数据处理
 # Author : Lengyue
@@ -56,66 +56,4 @@ class helper:
         return arr
 
 if __name__ == "__main__":
-    import json
-    a = {
-  "db":{
-      "redis":{
-        "ip":"127.0.0.1",
-        "port":6379,
-        "password":""
-      }
-  },
-
-  "API_Settings":{
-    "Connection_key":"a61a6b836f3d72684dc35f28cbae4b2d"
-  },
-
-  "Flask_Settings":{
-    "host":"0.0.0.0",
-    "port":5000
-  },
-  "Modules":[
-    {
-      "path":"libs",
-      "name":"usercore",
-      "version":1,
-      "author":"Lengyue",
-      "blueprints":[
-        "usercore"
-      ]
-    },
-    {
-      "path":"libs",
-      "name":"taskcore",
-      "version":1,
-      "author":"Lengyue",
-      "blueprints":[
-        "taskcore"
-      ]
-    },
-    {
-      "path":"libs",
-      "name":"servercore",
-      "version":1,
-      "author":"Lengyue",
-      "blueprints":[
-        "servercore"
-      ]
-    },{
-      "path":"libs",
-      "name":"main",
-      "version":1,
-      "author":"Lengyue",
-      "blueprints":[
-        "main"
-      ]
-    }
-  ],
-
-  "log":{
-    "file":"log.txt"
-  }
-}
-    traded = helper().Transform(a)
-    print(json.dumps(traded))
-    print(json.dumps(helper().DeTransform(traded)))
+    pass
