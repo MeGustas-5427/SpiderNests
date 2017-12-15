@@ -164,6 +164,8 @@ def Callback(info):
     ans = redis_transformer.Transform(ans)
     for i in ans.keys():
         redis_conn.hset(result["id"], i, ans[i])
+    #两分钟不获取 回收
+    redis_conn.expire(result["id"],120)
     redis_conn.publish("guangbo", result["id"])
     #print(result["response"].headers)
 
