@@ -1,26 +1,21 @@
-# 如何在redis中优雅地存入多维数据
-# redis_helper.py
-# redis 数据处理
-# Author : Lengyue
-
-import redis
-
-class Helper:
-    def __init__(self):
-        pass
-
-    def Transform(self,arr):
+class Packer:
+    def pack(self, arr):
+        """
+        Pack dict to two-dimension
+        :param arr: dict
+        :return: packed dict
+        """
         temp = {}
-        if type(arr) == type([]):
+        if isinstance(arr, list):
             for i in range(len(arr)):
                 temp[i] = arr[i]
             next = temp
-            return self.Transform(next)
-        elif type(arr) == type({}):
+            return self.pack(next)
+        elif isinstance(arr, dict):
             a = {}
             for i in arr.keys():
-                deep = self.Transform(arr[i])
-                if type(deep) == type({}):
+                deep = self.pack(arr[i])
+                if isinstance(deep, dict):
                     for j in deep.keys():
                         temp = str(i) + "::" + str(j)
                         a[temp] = deep[j]
@@ -30,17 +25,18 @@ class Helper:
             return a
         return arr
 
-    def DeTransform(self,plain):
+    def unpack(self, plain):
+        """
+        Unpack Packed-redis-data
+        :param plain: packed dict
+        :return: unpacked value
+        """
         arr = {}
-        #nclist = []
         for i in plain.keys():
             s = i.split("::")
-            #print(s)
-            if len(s)!=0 and s != ['']:
+            if len(s) != 0 and s != ['']:
                 if s[0] not in arr.keys():
-                    #nclist.append(s[0])
                     arr[s[0]] = {}
-                    #print(nclist)
             else:
                 return plain['']
         for i in arr.keys():
@@ -49,9 +45,5 @@ class Helper:
                 s = j.split("::")
                 if len(s) != 0 and s[0] == i:
                     temp["::".join(s[1:])] = plain[j]
-            #print(temp)
-            arr[i] = self.DeTransform(temp)
+            arr[i] = self.unpack(temp)
         return arr
-
-if __name__ == "__main__":
-    pass
