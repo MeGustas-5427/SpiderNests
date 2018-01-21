@@ -38,7 +38,7 @@ class Process:
                 while self.app.statistic["requests_current"] > self.app.current_config["max_requests"]:
                     await asyncio.sleep(0.01)
                 if task is not None:
-                    give_task = json.loads(base64.b64decode(task[1]).decode())
+                    give_task = json.loads(task[1].decode())
                     asyncio.ensure_future(self.crawl(give_task))
                 else:
                     pass
@@ -101,8 +101,7 @@ class Process:
                     final_info["result"]["headers"][i] = response.headers[i]
 
         logger.info("Crawl ANS " + str(final_info))
-        await self.app.redis.set("crawl:result:" + final_info["task_id"],
-                                        base64.b64encode(json.dumps(final_info).encode()))
+        await self.app.redis.set("crawl:result:" + final_info["task_id"], json.dumps(final_info).encode())
         await self.app.redis.expire("crawl:result:" + final_info["task_id"], 300)
         await self.app.redis.publish("crawl:finish", final_info["task_id"])
         self.app.statistic["requests_current"] -= 1
