@@ -12,8 +12,9 @@ You just have to
     cd ./LRS
     python3 setup.py install
     screen python3 run.py -S LRS
-    cd ../SPS
+    cd ../SPS
     python3 setup.py install
+    
   
 Then Enjoy it:)
 
