@@ -11,7 +11,7 @@ You just have to
     pip3 install uvloop //Linux
     cd ./LRS
     python3 setup.py install
-    screen python3 run.py -S LRS
+    screen python3 run.py -S LRS
     cd ../SPS
     python3 setup.py install
   
