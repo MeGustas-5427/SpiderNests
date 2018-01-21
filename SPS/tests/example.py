@@ -9,7 +9,7 @@ async def start():
     app.requests("http://www.xicidaili.com/", firstpage, headers={
         "User-Agent": "Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) "
                       "Chrome/63.0.3239.132 Mobile Safari/537.36"
-    }, proxy="http://127.0.0.1:8888")
+    })
 
 async def validate(content, args):
     if "text" in content["result"].keys():
