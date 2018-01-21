@@ -1,18 +1,8 @@
-"""
-A example for writing parser-file.
+from ParserService.bind import Parser
 
-The file name must be "main.py"
+test = Parser(__file__)
 
-The class name must be "HtmlParser".
-
-The function "run" is necessary.
-"""
-class HtmlParser:
-    def __init__(self):
-        pass
-
-    def run(self):
-        result = dict
-        # other sentences for parse pages and clear data
-        # return a dictionary that the datas in the end
-        return result
+@test.route("fuck")
+def fuck(text: str):
+    # do something
+    print(text)
