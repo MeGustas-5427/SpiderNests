@@ -1,18 +1,16 @@
-# LRS
-#### LengyueRequestsService
+# SPS
+#### SpiderNestsParseService
 *Author Lengyue*
 
 ------
 当前版本 0.1A
 
-这是一个允许用户自行定义流控的基于uvloop+aiohttp的请求器
+这是一个与LRS配合的解析框架
 
 本程序需要 redis
 
-tests 文件夹内是默认请求
+tests 文件夹给了一个爬取代理的例子
 
-	python run.py
+	python setup.py install
 	
 即可食用:)
-
-安装为可选功能
