@@ -5,46 +5,50 @@ import time
 import aioredis
 import base64
 import json
-
-from LengyueRequestsService.log import *
+from .log import logger, error_logger
 
 
 class Process:
     app = None
     redis = None
 
-    def __init__(self):
-        """
-        Init Requests Process
-        """
-        pass
+    async def connect_redis(self):
+        redis_pool = await aioredis.create_pool(
+            (self.app.redis_host, self.app.redis_port),
+            minsize=5, maxsize=10, password=self.app.redis_password or None,
+            db=self.app.redis_db, loop=self.app.loop
+        )
+        self.redis = await aioredis.Redis(redis_pool)
 
-    async def work(self, app):
+
+    def __init__(self, app):
+        self.app = app
+        self.lock = asyncio.Lock()
+        app.loop.run_until_complete(self.connect_redis())
+        app.loop.run_until_complete(self.lock.acquire())
+
+    async def work(self):
         """
         Start work, fetch tasks
         :param app: LRS object
         """
-        self.app = app
-        redis_pool = await aioredis.create_pool(
-            (app.redis_host, app.redis_port),
-            minsize=5, maxsize=10, password=app.redis_password or None,
-            db=app.redis_db, loop=app.loop
-        )
-        self.redis = await aioredis.Redis(redis_pool)
+        """
+        超过数量就上锁
+        """
+        if self.app.statistic["requests_current"] > self.app.current_config["max_requests"]:
+            error_logger.warn("Requests Service System Locked")
+            await self.lock.acquire()
+        try:
+            task = await self.redis.brpop('crawl:queue')
+            if task is not None:
+                give_task = json.loads(task[1].decode())
+                self.app.loop.create_task(self.crawl(give_task))
+            else:
+                pass
+        except:
+            error_logger.warn("Process queue Error" + "\r\n" + traceback.format_exc())
+        self.app.loop.create_task(self.work())
 
-        while True:
-            try:
-                task = await self.redis.brpop('crawl:queue')
-                while self.app.statistic["requests_current"] > self.app.current_config["max_requests"]:
-                    await asyncio.sleep(0.01)
-                if task is not None:
-                    give_task = json.loads(task[1].decode())
-                    asyncio.ensure_future(self.crawl(give_task))
-                else:
-                    pass
-
-            except:
-                error_logger.warn("Process queue Error" + "\r\n" + traceback.format_exc())
 
     async def crawl(self, task):
         """
@@ -55,7 +59,7 @@ class Process:
         response = "-1"
         content = "-1"
         try:
-            self.app.statistic["requests_total"] += 1
+            self.app.statistic["requests_total_made"] += 1
             start = int(time.time() * 1000)
             async with ClientSession() as session:
                 async with session.request(
@@ -105,8 +109,12 @@ class Process:
             except:
                 error_logger.warn("Requests Error, Failed to make final info")
 
-        logger.info("Crawl ANS " + str(final_info))
         await self.app.redis.set("crawl:result:" + final_info["task_id"], json.dumps(final_info).encode())
         await self.app.redis.expire("crawl:result:" + final_info["task_id"], 300)
         await self.app.redis.publish("crawl:finish", final_info["task_id"])
         self.app.statistic["requests_current"] -= 1
+        self.app.statistic["requests_total_finish"] += 1
+        if self.app.statistic["requests_current"] <= self.app.current_config["max_requests"]:
+            if self.lock.locked():
+                self.lock.release()
+                logger.info("Requests Service Un Locked")

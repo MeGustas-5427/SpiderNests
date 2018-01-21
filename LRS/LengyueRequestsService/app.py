@@ -2,9 +2,9 @@ import aioredis
 import asyncio
 import json5
 
-from LengyueRequestsService.log import *
-from LengyueRequestsService.process import Process
-from LengyueRequestsService.statistic import statistic_listener
+from .log import logger, error_logger
+from .process import Process
+from .statistic import statistic_listener
 
 try:
     import uvloop
@@ -12,14 +12,13 @@ try:
 except:
     logger.info("uvloop is unavaliable")
 
-"""LRS Main Program"""
-
 
 class LRS:
     pool = []
     redis = None
     statistic = {
-        "requests_total": 0,
+        "requests_total_made": 0,
+        "requests_total_finish": 0,
         "requests_current": 0,
         "delay": []
     }
@@ -48,7 +47,6 @@ class LRS:
         self.callback_method = self.default_controller
         self.loop = asyncio.get_event_loop()
         self.app = self
-        pass
 
     def controller(self):
         """
@@ -88,12 +86,17 @@ class LRS:
             self.redis_password = redis_password
             self.redis_db = redis_db
 
-        logger.info("Config -> redis: %s@%s:%s db %s" % (redis_password or "None", redis_host, redis_port, redis_db))
+        logger.info("Config -> redis: %s@%s:%s db %s" % (
+            self.redis_password or "None",
+            self.redis_host,
+            self.redis_port,
+            self.redis_db
+        )
+                    )
         self.loop.run_until_complete(self.start_redis())
-        tasks = [Process().work(self), statistic_listener(self)]
-        self.loop.run_until_complete(asyncio.wait(tasks))
-        self.loop.close()
-        pass
+        self.loop.create_task(Process(self).work())
+        self.loop.create_task(statistic_listener(self))
+        self.loop.run_forever()
 
     async def start_redis(self):
         """

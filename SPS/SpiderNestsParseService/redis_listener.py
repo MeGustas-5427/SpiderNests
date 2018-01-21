@@ -4,17 +4,12 @@ import aioredis
 import base64
 import json
 from aioredis.pubsub import Receiver, AbcChannel
-from .log import *
+from .log import error_logger
+
 
 class Listener:
     app = None
     redis = None
-
-    def __init__(self):
-        """
-        Init RedisListener
-        """
-        pass
 
     async def reader(self, mpsc):
         """

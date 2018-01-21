@@ -4,7 +4,7 @@ import json5
 import hashlib
 import random
 from .redis_listener import Listener
-from .log import *
+from .log import logger, error_logger
 
 try:
     import uvloop
@@ -25,7 +25,6 @@ class SPS:
 
     def __init__(self):
         self.loop = asyncio.get_event_loop()
-        pass
 
     def requests(self, url, callback, method="GET", proxy=None, params=None, data=None, headers=None, args=None):
         """
@@ -54,7 +53,6 @@ class SPS:
             "args": args
         }
         asyncio.ensure_future(self.redis.lpush('crawl:queue', task))
-        pass
 
     def main(self):
         """
@@ -94,12 +92,17 @@ class SPS:
             self.redis_password = redis_password
             self.redis_db = redis_db
 
-        logger.info("Config -> redis: %s@%s:%s db %s" % (redis_password or "None", redis_host, redis_port, redis_db))
+        logger.info("Config -> redis: %s@%s:%s db %s" % (
+            self.redis_password or "None",
+            self.redis_host,
+            self.redis_port,
+            self.redis_db
+        )
+                    )
         self.loop.run_until_complete(self.start_redis())
         asyncio.ensure_future(Listener().work(self), loop=self.loop)
         self.loop.run_until_complete(self.main_entrance())
         self.loop.run_forever()
-        pass
 
     async def start_redis(self):
         """
