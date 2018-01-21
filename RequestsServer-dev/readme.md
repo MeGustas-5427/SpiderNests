@@ -1,4 +1,0 @@
-# LRS - Lengyue Requests Service
-### 算是alpha版本了 多进程暂未实现
-### 其他的功能待添加
-### 支持自定义流控

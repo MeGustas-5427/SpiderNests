@@ -2,6 +2,7 @@ import psutil
 import time
 import traceback
 import asyncio
+import json
 from LengyueRequestsService.log import *
 
 
@@ -43,18 +44,17 @@ async def statistic_listener(app):
                 "requests": {
                     "average_requests_num": app.statistic["requests_total"] / 10,
                     "average_delay": delay,  # ms
+                    "current_connections": app.statistic["requests_current"]
                 },
+                "current_config": app.current_config,
                 "timestamp": time.time()
             }
             app.statistic["requests_total"] = 0
             last = now
             logger.info("State: " + str(info))
             app.current_config = await app.app.callback_method(app.current_config, info)
-            for i in info.keys():
-                if isinstance(info[i], dict):
-                    await app.redis.hmset_dict("states:%s:%s" % (app.config["server_id"], i), info[i])
-                else:
-                    await app.redis.hmset_dict("states:%s:config" % app.config["server_id"], {i: info[i]})
+
+            await app.redis.set("states:%s" % app.config["server_id"], json.dumps(info))
             await asyncio.sleep(10)
         except:
             error_logger.warn("Statistic Error" + "\r\n" + traceback.format_exc())

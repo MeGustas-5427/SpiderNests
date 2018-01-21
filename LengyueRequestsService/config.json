@@ -1,0 +1,10 @@
+{
+  "redis":{ // Redis config
+    "host":"127.0.0.1",
+    "port":6379,
+    "password":"",
+    "db":0
+  },
+  "server_id": "7e3ac10cac59ba1bc29b0b126701aa7f", // Server unique id
+  "process_config": "./process_config.json" // Process_cfg
+}

@@ -1,8 +1,8 @@
-from LengyueRequestsService import Controller
-app = Controller()
+from LengyueRequestsService import LRS
+app = LRS()
 
 
-@app.reciver()
+@app.controller()
 async def recv(config, state):
     print("Here to change cfg ", config, state)
     return config
