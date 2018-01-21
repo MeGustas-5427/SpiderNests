@@ -1,4 +1,5 @@
 
+
 if __name__ == "__main__":
-    from ParserService.ParserDir.example.main import test
-    test.funcs["fuck"]("fsdkafjkasjndi")
+    from ParserDir.example.main import SN
+    SN.funcs["fuck"]("123123")

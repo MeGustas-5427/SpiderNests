@@ -1,8 +1,7 @@
-from ParserService.bind import Parser
+from ParserService import SN
 
-test = Parser(__file__)
 
-@test.route("fuck")
+@SN.route("fuck")
 def fuck(text: str):
     # do something
     print(text)
