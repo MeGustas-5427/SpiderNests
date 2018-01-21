@@ -52,7 +52,7 @@ class LRS:
 
     def controller(self):
         """
-        Decreator of Controller
+        Decorator of Controller
         It can be set by users manually
         """
         def callback(handler):

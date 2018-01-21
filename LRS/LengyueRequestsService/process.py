@@ -61,8 +61,10 @@ class Process:
                 async with session.request(
                         method=task["method"].upper(),
                         url=task["url"],
-                        proxy=task["proxy"] if task["proxy"] else None,
-                        params=task["params"] if "params" in task.keys() else None
+                        proxy=task["proxy"] if "proxy" in task.keys() else None,
+                        params=task["params"] if "params" in task.keys() else None,
+                        data=task["data"] if "data" in task.keys() else None,
+                        headers=task["headers"] if "headers" in task.keys() else None
                 ) as crawl_response:
                     content = await crawl_response.read()
                     response = crawl_response
@@ -83,22 +85,25 @@ class Process:
                 "status": 600
             }
         else:
-            final_info["result"] = {
-                "status": response.status,
-                "url": str(response.url),
-                "content": base64.b64encode(content).decode(),
-                "headers": {}
-            }
-            for i in response.headers.keys():
-                if i in final_info["result"]["headers"]:
-                    if isinstance(final_info["result"]["headers"][i], list):
-                        final_info["result"]["headers"][i].append(response.headers[i])
+            try:
+                final_info["result"] = {
+                    "status": response.status,
+                    "url": str(response.url),
+                    "content": base64.b64encode(content).decode(),
+                    "headers": {}
+                }
+                for i in response.headers.keys():
+                    if i in final_info["result"]["headers"]:
+                        if isinstance(final_info["result"]["headers"][i], list):
+                            final_info["result"]["headers"][i].append(response.headers[i])
+                        else:
+                            temp = final_info["result"]["headers"][i]
+                            final_info["result"]["headers"][i] = [temp]
+                            final_info["result"]["headers"][i].append(response.headers[i])
                     else:
-                        temp = final_info["result"]["headers"][i]
-                        final_info["result"]["headers"][i] = [temp]
-                        final_info["result"]["headers"][i].append(response.headers[i])
-                else:
-                    final_info["result"]["headers"][i] = response.headers[i]
+                        final_info["result"]["headers"][i] = response.headers[i]
+            except:
+                error_logger.warn("Requests Error, Failed to make final info")
 
         logger.info("Crawl ANS " + str(final_info))
         await self.app.redis.set("crawl:result:" + final_info["task_id"], json.dumps(final_info).encode())
