@@ -1,10 +1,12 @@
 import aioredis
 import asyncio
 import json5
+import traceback
 
 from .log import logger, error_logger
 from .process import Process
 from .statistic import statistic_listener
+from .crawl_pool import CrawlPool
 
 try:
     import uvloop
@@ -26,13 +28,14 @@ class LRS:
     current_config = {
         "max_requests": 500
     }
+
     callback_method = None
     config = None
     redis_host = None
     redis_password = None
     redis_port = None
     redis_db = None
-
+    Queue = None
 
     def default_controller(self, config, statue):
         """
@@ -59,7 +62,7 @@ class LRS:
 
         return callback
 
-    def run(self, redis_host="127.0.0.1", redis_port=6379, redis_password=None, redis_db=0, config=None):
+    def run(self, config):
         """
         Init LRS
         :param redis_host: redis host
@@ -68,23 +71,19 @@ class LRS:
         :param redis_db: redis cache db
         :param config: config filename
         """
-        if config is not None:
-            logger.info("Load config from file %s" % config)
-            try:
-                self.config = json5.loads(open(config, "r").read())
-                self.redis_host = self.config["redis"]["host"]
-                self.redis_port = self.config["redis"]["port"]
-                self.redis_password = self.config["redis"]["password"]
-                self.redis_db = self.config["redis"]["db"]
-                self.current_config = json5.loads(open(self.config["process_config"], "r").read())
-            except Exception:
-                error_logger.warn("Load config failed")
-                return
-        else:
-            self.redis_host = redis_host
-            self.redis_port = redis_port
-            self.redis_password = redis_password
-            self.redis_db = redis_db
+
+        logger.info("Load config from file %s" % config)
+        try:
+            self.config = json5.loads(open(config, "r").read())
+            self.redis_host = self.config["redis"]["host"]
+            self.redis_port = self.config["redis"]["port"]
+            self.redis_password = self.config["redis"]["password"]
+            self.redis_db = self.config["redis"]["db"]
+            self.current_config = json5.loads(open(self.config["process_config"], "r").read())
+            self.Queue = asyncio.Queue(self.config["Queue_max"])
+        except Exception:
+            error_logger.warn("Load config failed\r\n" + traceback.format_exc())
+            return
 
         logger.info("Config -> redis: %s@%s:%s db %s" % (
             self.redis_password or "None",
@@ -93,7 +92,9 @@ class LRS:
             self.redis_db
         )
                     )
+
         self.loop.run_until_complete(self.start_redis())
+        self.loop.create_task(CrawlPool(self).work())
         self.loop.create_task(Process(self).work())
         self.loop.create_task(statistic_listener(self))
         self.loop.run_forever()
@@ -105,7 +106,7 @@ class LRS:
         try:
             redis_pool = await aioredis.create_pool(
                     (self.redis_host, self.redis_port),
-                    minsize=5, maxsize=10, password=self.redis_password or None,
+                    minsize=20, maxsize=50, password=self.redis_password or None,
                     db=self.redis_db, loop=self.loop
                 )
             self.redis = await aioredis.Redis(redis_pool)

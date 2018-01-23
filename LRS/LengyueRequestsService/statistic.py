@@ -1,7 +1,6 @@
 import psutil
 import time
 import traceback
-import asyncio
 import json
 from .log import logger, error_logger
 
@@ -32,11 +31,11 @@ async def statistic_listener(app, last=0):
             "free": mem.free
         },
         "network": {
-            "average_10_seconds": (now - last) / 10
+            "average": (now - last) / app.config["statistic_interval"]
         },
         "requests": {
-            "average_requests_made": app.statistic["requests_total_made"] / 10,
-            "average_requests_finish": app.statistic["requests_total_finish"] / 10,
+            "average_requests_made": app.statistic["requests_total_made"] / app.config["statistic_interval"],
+            "average_requests_finish": app.statistic["requests_total_finish"] / app.config["statistic_interval"],
             "average_delay": delay,  # ms
             "current_connections": app.statistic["requests_current"]
         },
@@ -53,4 +52,4 @@ async def statistic_listener(app, last=0):
     except:
         error_logger.warn("Statistic Error" + "\r\n" + traceback.format_exc())
     finally:
-        app.loop.call_later(10, app.loop.create_task, statistic_listener(app, now))
+        app.loop.call_later(app.config["statistic_interval"], app.loop.create_task, statistic_listener(app, now))
